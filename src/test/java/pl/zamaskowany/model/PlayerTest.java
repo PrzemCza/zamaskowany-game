@@ -8,19 +8,20 @@ class PlayerTest {
     @Test
     void shouldCreateNewPlayerWithCorrectInitialStats() {
         // given - powołujemy gracza do życia
-        Player player = new Player("Zamaskowany", 150);
+        Player player = new Player("Zamaskowany", 150, 15);
 
         // when & then - sprawdzamy, czy konstruktor i gettery działają poprawnie
         assertThat(player.getName()).isEqualTo("Zamaskowany");
         assertThat(player.getMaxHealth()).isEqualTo(150);
         assertThat(player.getHealth()).isEqualTo(150); // Na start zdrowie powinno być równe maksymalnemu
         assertThat(player.getLevel()).isEqualTo(1);    // Zawsze zaczynamy od poziomu 1
+        assertThat(player.getAttackPower()).isEqualTo(15);
     }
 
     @Test
     void shouldDecreaseHealthWhenTakingDamage() {
         // given
-        Player player = new Player("Zamaskowany", 100);
+        Player player = new Player("Zamaskowany", 100, 15);
 
         // when - gracz obrywa za 30 punktów
         player.takeDamage(30);
@@ -32,7 +33,7 @@ class PlayerTest {
     @Test
     void shouldNotDropHealthBelowZeroWhenTakingLethalDamage() {
         // given
-        Player player = new Player("Zamaskowany", 100);
+        Player player = new Player("Zamaskowany", 100, 15);
 
         // when - gracz otrzymuje śmiertelny cios (więcej obrażeń niż ma HP)
         player.takeDamage(999);
@@ -44,7 +45,7 @@ class PlayerTest {
     @Test
     void shouldIncreaseHealthWhenHealingButNotAboveMax() {
         // given - gracz ma 100 max HP, ale obrywa za 50
-        Player player = new Player("Zamaskowany", 100);
+        Player player = new Player("Zamaskowany", 100, 15);
         player.takeDamage(50); // Stan: 50/100 HP
 
         // when - gracz wypija potężną miksturę leczącą za 200 HP
@@ -57,7 +58,7 @@ class PlayerTest {
     @Test
     void shouldReturnTrueWhenPlayerHasHealth() {
         // given
-        Player player = new Player("Zamaskowany", 100);
+        Player player = new Player("Zamaskowany", 100, 15);
 
         // when & then - w pełni zdrowy gracz musi żyć
         assertThat(player.isAlive()).isTrue();
@@ -66,7 +67,7 @@ class PlayerTest {
     @Test
     void shouldReturnFalseWhenPlayerTakesLethalDamage() {
         // given
-        Player player = new Player("Zamaskowany", 100);
+        Player player = new Player("Zamaskowany", 100, 15);
 
         // when - gracz otrzymuje śmiertelne obrażenia
         player.takeDamage(100);

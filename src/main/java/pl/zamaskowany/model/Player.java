@@ -1,28 +1,20 @@
 package pl.zamaskowany.model;
 
-public class Player {
-    // Pola klasy - cechy naszego gracza
-    private final String name;
-    private int health;
+public class Player extends GameCharacter {
+    // Pola klasy - cechy naszego gracza, które są unikalne poza dziedziczeniem.
     private int maxHealth;
     private int level;
 
     // Konstruktor - specjalna metoda służąca do powoływania gracza do życia
-    public Player(String name, int maxHealth) {
-        this.name = name;
+    public Player(String name, int maxHealth, int attackPower) {
+        // Przekazujemy imię, ZDROWIE (które na start równa się maxHealth) i siłę ataku do rodzica
+        super(name, maxHealth, attackPower);
+        // Inicjalizujemy unikalne cechy gracza
         this.maxHealth = maxHealth;
-        this.health = maxHealth; // Na starcie gracz ma pełne zdrowie
-        this.level = 1;          // Każdy zaczyna od 1 poziomu
+        this.level = 1;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public int getHealth() {
-        return health;
-    }
-
+    //Gettery tylko dla gracza.
     public int getMaxHealth() {
         return maxHealth;
     }
@@ -31,25 +23,15 @@ public class Player {
         return level;
     }
 
-    // Metody (Zachowania)
-    public void takeDamage(int damage) {
-        if (damage > 0) {
-            // Math.max wybiera większą z dwóch liczb.
-            // Dzięki temu zdrowie nigdy nie spadnie poniżej 0.
-            this.health = Math.max(0, this.health - damage);
-        }
-    }
+    // Metody (Zachowania), leczenie jest na razie zarezerwowane tylko dla gracza
 
     public void heal(int amount) {
         if (amount > 0) {
             // Math.min wybiera MNIEJSZĄ z dwóch liczb.
             // Dzięki temu zdrowie nigdy nie przekroczy maxHealth.
+            // Dzięki 'protected' w GameCharacter, mamy dostęp do 'this.health'
             this.health = Math.min(this.maxHealth, this.health + amount);
         }
-    }
-
-    public boolean isAlive() {
-        return this.health > 0;
     }
 
 }
